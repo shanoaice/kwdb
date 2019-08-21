@@ -7,5 +7,5 @@
 
 |Package Name|Install Size|Dependency Status|
 |-|:-:|:-:|
-|kwdb|[![install size](https://packagephobia.now.sh/badge?p=kwdb)](https://packagephobia.now.sh/result?p=kwdb)|[![dependencies Status](https://david-dm.org/KsRyY/kwdb/status.svg)](https://david-dm.org/KsRyY/kwdb)|
-|kwdb-cli|***WIP***|***WIP***|
+|[kwdb](https://github.com/KsRyY/kwdb/tree/master/packages/kwdb)|[![install size](https://packagephobia.now.sh/badge?p=kwdb)](https://packagephobia.now.sh/result?p=kwdb)|[![dependencies Status](https://david-dm.org/KsRyY/kwdb/status.svg)](https://david-dm.org/KsRyY/kwdb)|
+|[kwdb-cli](https://github.com/KsRyY/kwdb/tree/master/packages/kwdb-cli)|***WIP***|***WIP***|
