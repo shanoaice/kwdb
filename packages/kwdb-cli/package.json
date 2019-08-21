@@ -1,0 +1,44 @@
+{
+  "name": "kwdb-cli",
+  "version": "0.0.0",
+  "description": "The CLI tool for kwdb",
+  "keywords": [
+    "cli",
+    "kwdb",
+    "restful",
+    "level",
+    "levelup",
+    "leveldown",
+    "wrap",
+    "web",
+    "database",
+    "yargs"
+  ],
+  "author": "KsRyY <andy200511@126.com>",
+  "homepage": "https://github.com/KsRyY/kwdb",
+  "license": "MIT",
+  "main": "lib/kwdb-cli.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://npmreg.proxy.ustclug.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KsRyY/kwdb.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/KsRyY/kwdb/issues"
+  },
+  "dependencies": {
+    "console-menu": "^0.1.0",
+    "got": "^9.6.0"
+  }
+}

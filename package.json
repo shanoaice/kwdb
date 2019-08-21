@@ -1,43 +1,8 @@
 {
-  "name": "kwdb",
-  "version": "1.5.2",
-  "description": "A RESTful wrap of LevelDB",
-  "scripts": {
-    "test": "echo \"No test avaliable\" && exit 0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ksryy/kwdb.git"
-  },
-  "keywords": [
-    "leveldb",
-    "backend",
-    "database",
-    "restful",
-    "express",
-    "cli"
-  ],
-  "author": "Andy Chen <andy200511@126.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ksryy/kwdb/issues"
-  },
-  "homepage": "https://github.com/ksryy/kwdb#readme",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "fs-extra": "^8.1.0",
-    "koa": "^2.7.0",
-    "level": "^5.0.1",
-    "level-lock": "^1.0.1",
-    "subleveldown": "^4.0.0",
-    "yargs": "^14.0.0"
-  },
+  "name": "root",
+  "private": true,
   "devDependencies": {
     "eslint": "^6.2.1",
-    "trace": "^3.1.1"
-  },
-  "bin": {
-    "kwdb": "cli.js"
+    "lerna": "^3.16.4"
   }
 }
