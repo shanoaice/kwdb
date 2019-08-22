@@ -46,7 +46,7 @@ const argv = yargs.usage('Usage: $0 --port|-p=[port] --host=[host] -c|--config=[
 const VERBOSE_LEVEL = argv.verbose;
 
 const LOG = (...arg) => { VERBOSE_LEVEL >= 0 && console.log(...arg); };
-const WARN = (...arg) => { VERBOSE_LEVEL >= 1 && console.log(...arg); };
+const WARN = (...arg) => { VERBOSE_LEVEL >= 1 && console.warn(...arg); };
 const DEBUG = (...arg) => { VERBOSE_LEVEL >= 2 && console.log(...arg); };
 
 DEBUG(argv);
@@ -73,7 +73,7 @@ if(config) {
 		host: argv.host,
 		port: argv.port,
 		database: path.isAbsolute(argv.database)?argv.database:path.resolve(argv.database)
-	}
+	};
 }
 
 DEBUG(config);
@@ -97,5 +97,13 @@ const exitHandle = (code) => {
 process.on('SIGINT',exitHandle);
 
 process.on('SIGTERM',exitHandle);
+
+kwdb.log.on('log', msg => {
+	LOG(msg);
+});
+
+kwdb.dbgMsg.on('error', msg => {
+	console.error(msg);
+});
 
 kwdb.launch(config);
