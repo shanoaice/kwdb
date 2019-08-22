@@ -1,7 +1,7 @@
 # kwdb
 [![install size](https://packagephobia.now.sh/badge?p=kwdb)](https://packagephobia.now.sh/result?p=kwdb)
 
-> A server-side encapsulation for LevelDB, powered by express
+> A REST wrap for LevelDB, powered by koa
 
 ## Usage
 
