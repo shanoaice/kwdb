@@ -14,7 +14,7 @@ const argv = yargs.usage('Usage: $0 --port|-p=[port] --host=[host] -c|--config=[
 		type: 'number'
 		},
 		'host': {
-			default: 'localhost',
+			default: '127.0.0.1',
 			describe: 'The host that the kwdb server runs on'
 		},
 		'c':{
