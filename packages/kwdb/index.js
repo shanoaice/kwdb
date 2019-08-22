@@ -166,7 +166,7 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 			response.body = e;
 		});
 	});
-	app.use(router.middleware());
+	app.use(router.routes());
 	app.listen(port, host, () => {
 		console.log(`App ${name} listening at port ${port}, host ${host}`);
 	});
