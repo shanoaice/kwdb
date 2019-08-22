@@ -1,6 +1,6 @@
 {
   "packages": [
-    "packages/*"
+    "packages/kwdb"
   ],
   "version": "0.0.0"
 }
