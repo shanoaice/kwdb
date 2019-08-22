@@ -46,12 +46,10 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 	router.post('/buckets',async ({ request, response }) => {
 		const { id } = request.body;
 		db(path.join(database, id, '.db'),{},(err,db) => {
-			if(err instanceof db.errors.OpenError) {
 			if(err instanceof levelErrors.OpenError) {
 				dbgMsg.emit('error', err);
 				response.status = 500;
 				response.body = 'failed to open the required database, please check if the database is already in use';
-			} else if(err instanceof db.errors.InitializationError) {
 			} else if(err instanceof levelErrors.InitializationError) {
 				dbgMsg.emit('error', err);
 				response.status = 500;
