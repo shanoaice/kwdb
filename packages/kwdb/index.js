@@ -1,23 +1,44 @@
 const bodyParser = require('body-parser');
 const fs = require('fs-extra');
 const path = require('path');
+const koaBody = require('koa-body');
+const Koa = require('koa');
+const Router = require('koa-rapid-router');
 
 exports.buckets = {};
 exports.bucketIds = [];
 exports.db = require('level');
-exports.app = require('express')();
+exports.app = new Koa();
+exports.router = new Router();
 exports.dbgMsg = require('events').EventEmitter;
 exports.name = 'kwdb';
-exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database }) => {
-	const { db, app, name, dbgMsg } = this;
+exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, doLog = true }) => {
+	const { db, app, name, dbgMsg, router } = this;
 	let { buckets, bucketIds } = this;
-	app.use(bodyParser.json());
-	app.get('/',(req,res) => {
+	app.use(koaBody());
+	if (doLog) {
+		// logger
+		app.use(async (ctx, next) => {
+			await next();
+			const rt = ctx.response.get('X-Response-Time');
+			console.log(`${ctx.method} ${ctx.url} - ${rt}`);
+		});
+
+		//X-Response-Time
+		app.use(async (ctx, next) => {
+			const start = Date.now();
+			await next();
+			const ms = Date.now() - start;
+			ctx.set('X-Response-Time', `${ms}ms`);
+		});
+	}
+	router.get('/',(req,res) => {
 		res.status(200).send('OK');
 	});
-	app.route('/buckets').get((req,res) => {
+	router.get('/buckets',(req,res) => {
 		res.status(200).json(bucketIds);
-	}).post((req,res) => {
+	});
+	router.post('/buckets',(req,res) => {
 		const { id } = req.body;
 		db(path.join(database, id, '.db'),{},(err,db) => {
 			if(err instanceof db.errors.OpenError) {
@@ -33,7 +54,8 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database }
 				res.status(200).send('OK');
 			}
 		});
-	}).delete((req,res) => {
+	});
+	router.delete('/buckets',(req,res) => {
 		buckets[req.body.id].close(e => {
 			if(e) {
 				res.status(500).send(e);
@@ -46,7 +68,7 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database }
 			else res.status(204).send('OK');
 		});
 	});
-	app.get('/buckets/umount/:id', (req,res) => {
+	router.get('/buckets/umount/:id', (req,res) => {
 		const body = req.params;
 		try {
 			buckets[body.id].close(e => {
@@ -58,7 +80,7 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database }
 			res.status(500).send(e.message);
 		}
 	});
-	app.route('/buckets/:id').post((req,res) => {
+	router.post('/buckets/:id', (req,res) => {
 		var body = req.body;
 		var id = req.params.id;
 		try {
@@ -68,7 +90,8 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database }
 		} catch (e) {
 			res.status(500).send(e.message);
 		}
-	}).get((req,res) => {
+	});
+	router.get('/buckets/:id', (req,res) => {
 		const id = req.params.id;
 		const query = req.query;
 		try {
@@ -84,7 +107,8 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database }
 		} catch (e) {
 			res.status(500).send(e.message);
 		}
-	}).delete((req,res) => {
+	});
+	router.delete('/buckets/:id',(req,res) => {
 		const id = req.params.id;
 		const key = req.body.key;
 		buckets[id].del(key,e => {
@@ -93,13 +117,14 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database }
 			} else res.status(204).send('Content deleted');
 		});
 	});
-	app.post('/buckets/:id/batch',(req,res) => {
+	router.post('/buckets/:id/batch',(req,res) => {
 		const id = req.params.id;
 		const tasks = req.body.task;
 		buckets[id].batch(tasks,(e) => {
 			res.status(500).send(e);
 		});
 	});
+	app.use(router.Koa());
 	app.listen(port, host, () => {
 		console.log(`App ${name} listening at port ${port}, host ${host}`);
 	});
