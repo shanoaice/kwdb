@@ -1,6 +1,6 @@
 # kwdb CLI
 
-> WARNING: This CLI will be removed from the `kwdb` package from `kwdb@2` and newer versions. The standard cli will be moved to the package `kwdb-cli`.
+> WARNING: This CLI will be removed from the `kwdb` package from `kwdb@3` and newer versions. The standard cli will be moved to the package `kwdb-cli`.
 
 kwdb provides a very simple CLI, only had a subcommand `start` now.
 
