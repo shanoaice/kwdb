@@ -4,14 +4,17 @@ const path = require('path');
 const koaBody = require('koa-body');
 const Koa = require('koa');
 const Router = require('koa-rapid-router');
+const Router = require('koa-router-find-my-way');
 const EventEmitter = require('events').EventEmitter;
 const RouterContainer = new Router();
+const levelErrors = require('level-errors');
 
 exports.buckets = {};
 exports.bucketIds = [];
 exports.db = require('level');
 exports.app = new Koa();
 exports.router = RouterContainer.create();
+exports.router = Router();
 exports.dbgMsg = new EventEmitter();
 exports.log = new EventEmitter();
 exports.name = 'kwdb';
@@ -47,16 +50,19 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 		const { id } = request.body;
 		db(path.join(database, id, '.db'),{},(err,db) => {
 			if(err instanceof db.errors.OpenError) {
+			if(err instanceof levelErrors.OpenError) {
 				dbgMsg.emit('error', err);
 				response.status = 500;
 				response.body = 'failed to open the required database, please check if the database is already in use';
 			} else if(err instanceof db.errors.InitializationError) {
+			} else if(err instanceof levelErrors.InitializationError) {
 				dbgMsg.emit('error', err);
 				response.status = 500;
 				response.body = 'failed to init a new database';
 			} else {
 				buckets[id] = db;
 				bucketIds.push(id);
+				response.status = 201;
 				response.body = 'OK';
 			}
 		});
