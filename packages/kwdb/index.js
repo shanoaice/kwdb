@@ -4,24 +4,29 @@ const path = require('path');
 const koaBody = require('koa-body');
 const Koa = require('koa');
 const Router = require('koa-rapid-router');
+const EventEmitter = require('events').EventEmitter;
+const RouterContainer = new Router();
 
 exports.buckets = {};
 exports.bucketIds = [];
 exports.db = require('level');
 exports.app = new Koa();
-exports.router = new Router();
-exports.dbgMsg = require('events').EventEmitter;
+exports.router = RouterContainer.create();
+exports.dbgMsg = new EventEmitter();
+exports.log = new EventEmitter();
 exports.name = 'kwdb';
 exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, doLog = true }) => {
-	const { db, app, name, dbgMsg, router } = this;
+	const { db, app, name, dbgMsg, router, log } = this;
 	let { buckets, bucketIds } = this;
-	app.use(koaBody());
+	app.use(koaBody({
+		parsedMethods: ['POST','DELETE']
+	}));
 	if (doLog) {
 		// logger
 		app.use(async (ctx, next) => {
 			await next();
 			const rt = ctx.response.get('X-Response-Time');
-			console.log(`${ctx.method} ${ctx.url} - ${rt}`);
+			log.emit('log', `${ctx.method} ${ctx.url} - ${rt}`);
 		});
 
 		//X-Response-Time
@@ -32,26 +37,27 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 			ctx.set('X-Response-Time', `${ms}ms`);
 		});
 	}
-	router.get('/',(req,res) => {
-		res.status(200).send('OK');
+	router.get('/',async ({ response }) => {
+		response.body = 'OK';
 	});
-	router.get('/buckets',(req,res) => {
-		res.status(200).json(bucketIds);
+	router.get('/buckets',async ({ response }) => {
+		response.body = bucketIds;
 	});
-	router.post('/buckets',(req,res) => {
-		const { id } = req.body;
+	router.post('/buckets',async ({ request, response }) => {
+		const { id } = request.body;
 		db(path.join(database, id, '.db'),{},(err,db) => {
 			if(err instanceof db.errors.OpenError) {
-				dbgMsg.emit('err', err);
-				res.status(500).send('failed to open the required database, please check if the database is already in use');
+				dbgMsg.emit('error', err);
+				response.status = 500;
+				response.body = 'failed to open the required database, please check if the database is already in use';
 			} else if(err instanceof db.errors.InitializationError) {
-				dbgMsg.emit('err', err);
-				res.status(500).send('failed to init a new database, please check if your database id is valid(IF IT CONTAINS SPECIAL SYMBOLS)');
+				dbgMsg.emit('error', err);
+				response.status = 500;
+				response.body = 'failed to init a new database';
 			} else {
-
 				buckets[id] = db;
 				bucketIds.push(id);
-				res.status(200).send('OK');
+				response.body = 'OK';
 			}
 		});
 	});
@@ -124,7 +130,7 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 			res.status(500).send(e);
 		});
 	});
-	app.use(router.Koa());
+	app.use(RouterContainer.Koa());
 	app.listen(port, host, () => {
 		console.log(`App ${name} listening at port ${port}, host ${host}`);
 	});
