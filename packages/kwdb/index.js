@@ -3,17 +3,14 @@ const fs = require('fs-extra');
 const path = require('path');
 const koaBody = require('koa-body');
 const Koa = require('koa');
-const Router = require('koa-rapid-router');
 const Router = require('koa-router-find-my-way');
 const EventEmitter = require('events').EventEmitter;
-const RouterContainer = new Router();
 const levelErrors = require('level-errors');
 
 exports.buckets = {};
 exports.bucketIds = [];
 exports.db = require('level');
 exports.app = new Koa();
-exports.router = RouterContainer.create();
 exports.router = Router();
 exports.dbgMsg = new EventEmitter();
 exports.log = new EventEmitter();
