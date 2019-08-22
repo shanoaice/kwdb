@@ -23,4 +23,4 @@ and then start it from the kwdb cli:
 kwdb
 ```
 
-For more usage, see [kwdb document](https://kwdb.ksryy.ga)
+For more usage, see [kwdb document](https://ksryy.github.io/kwdb)
