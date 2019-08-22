@@ -106,4 +106,12 @@ kwdb.dbgMsg.on('error', msg => {
 	console.error(msg);
 });
 
+kwdb.dbgMsg.on('debug', msg => {
+	DEBUG(msg);
+});
+
+kwdb.dbgMsg.on('warn', msg => {
+	WARN(msg);
+})
+
 kwdb.launch(config);
