@@ -112,6 +112,6 @@ kwdb.dbgMsg.on('debug', msg => {
 
 kwdb.dbgMsg.on('warn', msg => {
 	WARN(msg);
-})
+});
 
 kwdb.launch(config);
