@@ -4,5 +4,6 @@
   ],
   "patch": {
 	  "automerge": true
-  }
+  },
+  "baseBranches": ["master","v1"]
 }
