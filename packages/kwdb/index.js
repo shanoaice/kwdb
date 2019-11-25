@@ -15,8 +15,9 @@ exports.router = Router();
 exports.dbgMsg = new EventEmitter();
 exports.log = new EventEmitter();
 exports.name = 'kwdb';
+exports.memdb = false;
 exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, doLog = true }) => {
-	const { db, app, name, dbgMsg, router, log } = this;
+	const { db, app, name, dbgMsg, router, log, memdb } = this;
 	let { buckets, bucketIds } = this;
 	app.use(koaBody({
 		parsedMethods: ['POST','DELETE']
@@ -72,13 +73,15 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 		}
 		delete buckets[request.body.id];
 		bucketIds = bucketIds.slice(bucketIds.indexOf(request.body.id),bucketIds.indexOf(request.body.id));
-		try {
-			await fs.remove('database/' + request.body.id + '.db');
-			response.body = null;
-		} catch (e) {
-			dbgMsg.emit('error', e);
-			response.status = 500;
-			response.body = err;
+		if (memdb) {
+			try {
+				await fs.remove('database/' + request.body.id + '.db');
+				response.body = null;
+			} catch (e) {
+				dbgMsg.emit('error', e);
+				response.status = 500;
+				response.body = err;
+			}
 		}
 	});
 	router.get('/buckets/umount/:id', async ({ response, params }) => {
