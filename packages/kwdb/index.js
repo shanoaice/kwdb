@@ -63,38 +63,31 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 		});
 	});
 	router.delete('/buckets',async ({ request, response }) => {
-		buckets[request.body.id].close(e => {
-			if(e) {
-				dbgMsg.emit('error',e);
-				response.status = 500;
-				response.body = e;
-			}
-		});
+		try{
+			await buckets[request.body.id].close();
+		} catch (e) {
+			dbgMsg.emit('error',e);
+			response.status = 500;
+			response.body = e;
+		}
 		delete buckets[request.body.id];
 		bucketIds = bucketIds.slice(bucketIds.indexOf(request.body.id),bucketIds.indexOf(request.body.id));
-		fs.remove('database/' + request.body.id + '.db', err => {
-			if(err) {
-				dbgMsg.emit('error', err);
-				response.status = 500;
-				response.body = err;
-			}
-			else {
-				response.body = null;
-			}
-		});
+		try {
+			await fs.remove('database/' + request.body.id + '.db');
+			response.body = null;
+		} catch (e) {
+			dbgMsg.emit('error', e);
+			response.status = 500;
+			response.body = err;
+		}
 	});
 	router.get('/buckets/umount/:id', async ({ response, params }) => {
 		const body = params;
 		try {
-			buckets[body.id].close(e => {
-				if(e) {
-					dbgMsg.emit('error',e);
-					response.status = 500;
-					response.body = 'unable to close database' + body.id;
-				} else response.body = 'OK';
-			});
+			await buckets[body.id].close();
+			response.body = 'OK'
 		} catch (e) {
-			dbgMsg.emit('error', e);
+			dbgMsg.emit('error',e);
 			response.status = 500;
 			response.body = e;
 		}
@@ -103,68 +96,56 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 		var body = request.body;
 		var { id } = params;
 		try {
-			buckets[id].put(body.key,body.value,e => {
-				if(e) {
-					dbgMsg.emit('error', e);
-					response.status = 500;
-					response.body = e;
-				} else {
-					response.status = 201;
-					response.body = 'OK';
-				}
-			});
+			await buckets[id].put(body.key,body.value)
+			response.status = 201;
+			response.body = 'OK';
 		} catch (e) {
 			dbgMsg.emit('error', e);
 			response.status = 500;
-			response.body = e.message;
+			response.body = e;
 		}
 	});
 	router.get('/buckets/:id', async ({ response, request, params }) => {
 		const { id } = params;
 		const { key } = request.query;
 		try {
-			buckets[id].get(key,(err,val) => {
-				if(err) {
-					dbgMsg.emit('error', err);
-					if(err.notFound) {
-						response.status = 404;
-						response.body = 'You are trying to fetch a key that does not exist in this bucket';
-					} else {
-						response.status = 500;
-						response.body = err;
-					}
-				}
-				response.status = 200;
-				response.body = val;
-			});
+			await buckets[id].get(key);
+			response.status = 200;
+			response.body = val;
 		} catch (e) {
 			dbgMsg.emit('error', e);
-			response.status = 500;
-			response.body = e.message;
+			if(e.notFound) {
+				response.status = 404;
+				response.body = 'You are trying to fetch a key that does not exist in this bucket';
+			} else {
+				response.status = 500;
+				response.body = e;
+			}
 		}
 	});
 	router.delete('/buckets/:id', async ({ request, response, params }) => {
 		const { id } = params;
 		const { key } = request.body;
-		buckets[id].del(key,e => {
-			if(e) {
-				dbgMsg.emit('error', e);
-				response.status = 500;
-				response.body = e;
-			} else {
-				response.status = 204;
-				response.body = 'Contnent deleted';
-			}
-		});
+		try {
+			await buckets[id].del(key);
+			response.status = 204;
+			response.body = 'Contnent deleted';
+		} catch (e) {
+			dbgMsg.emit('error', e);
+			response.status = 500;
+			response.body = e;
+		}
 	});
 	router.post('/buckets/:id/batch', async ({ request, response, params }) => {
 		const { id } = params;
 		const { tasks } = request.body;
-		buckets[id].batch(tasks,(e) => {
+		try {
+			buckets[id].batch(tasks);
+		} catch (e) {
 			dbgMsg.emit('error', e);
 			response.status = 500;
 			response.body = e;
-		});
+		}
 	});
 	app.use(router.routes());
 	app.listen(port, host, () => {
