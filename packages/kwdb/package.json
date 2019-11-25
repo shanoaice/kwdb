@@ -34,7 +34,7 @@
     "level-errors": "2.0.1",
     "level-lock": "1.0.1",
     "subleveldown": "4.1.4",
-    "yargs": "14.0.0"
+    "yargs": "14.2.2"
   },
   "bin": {
     "kwdb": "cli.js"
