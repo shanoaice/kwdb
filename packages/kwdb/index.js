@@ -73,7 +73,7 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 		}
 		delete buckets[request.body.id];
 		bucketIds = bucketIds.slice(bucketIds.indexOf(request.body.id),bucketIds.indexOf(request.body.id));
-		if (memdb) {
+		if (!memdb) {
 			try {
 				await fs.remove('database/' + request.body.id + '.db');
 				response.body = null;
