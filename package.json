@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "eslint": "6.2.2",
+    "eslint": "6.7.1",
     "lerna": "3.16.4"
   },
   "dependencies": {}
