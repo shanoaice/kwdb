@@ -38,5 +38,6 @@
   },
   "bin": {
     "kwdb": "cli.js"
-  }
+  },
+  "gitHead": "17622efde733665a79275aceb095efe66c89bfad"
 }
