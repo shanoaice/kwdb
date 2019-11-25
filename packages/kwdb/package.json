@@ -1,6 +1,6 @@
 {
   "name": "kwdb",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A RESTful wrap of LevelDB",
   "scripts": {
     "test": "echo \"Run test from root\" && exit 1"
