@@ -5,5 +5,8 @@
     "eslint": "6.7.1",
     "lerna": "3.19.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+	  "test": "lerna run test"
+  }
 }

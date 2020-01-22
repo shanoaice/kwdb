@@ -3,7 +3,7 @@
   "version": "2.0.3",
   "description": "A RESTful wrap of LevelDB",
   "scripts": {
-    "test": "echo \"Run test from root\" && exit 1"
+    "test": "ava --verbose"
   },
   "repository": {
     "type": "git",
@@ -39,5 +39,12 @@
   "bin": {
     "kwdb": "cli.js"
   },
-  "gitHead": "17622efde733665a79275aceb095efe66c89bfad"
+  "gitHead": "17622efde733665a79275aceb095efe66c89bfad",
+  "devDependencies": {
+    "ava": "^2.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "level-mem": "^5.0.1",
+    "level-rocksdb": "^4.0.0",
+    "supertest": "^4.0.2"
+  }
 }

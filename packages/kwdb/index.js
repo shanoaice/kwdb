@@ -6,6 +6,7 @@ const Koa = require('koa');
 const Router = require('koa-router-find-my-way');
 const EventEmitter = require('events').EventEmitter;
 const levelErrors = require('level-errors');
+const http = require('http');
 
 exports.buckets = {};
 exports.bucketIds = [];
@@ -16,7 +17,14 @@ exports.dbgMsg = new EventEmitter();
 exports.log = new EventEmitter();
 exports.name = 'kwdb';
 exports.memdb = false;
-exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, doLog = true }) => {
+exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database = process.cwd(), doLog = true, test = false } = {
+	host: 'localhost',
+	port: 8575,
+	sublevel: true,
+	database: process.cwd(),
+	doLog: true,
+	test: false
+}) => {
 	const { db, app, name, dbgMsg, router, log, memdb } = this;
 	let { buckets, bucketIds } = this;
 	app.use(koaBody({
@@ -45,23 +53,59 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 		response.body = bucketIds;
 	});
 	router.post('/buckets',async ({ request, response }) => {
-		const { id } = request.body;
-		db(path.join(database, id, '.db'),{},(err,db) => {
-			if(err instanceof levelErrors.OpenError) {
-				dbgMsg.emit('error', err);
-				response.status = 500;
-				response.body = 'failed to open the required database, please check if the database is already in use';
-			} else if(err instanceof levelErrors.InitializationError) {
-				dbgMsg.emit('error', err);
-				response.status = 500;
-				response.body = 'failed to init a new database';
-			} else {
-				buckets[id] = db;
-				bucketIds.push(id);
-				response.status = 201;
-				response.body = 'OK';
-			}
-		});
+		const { id, testInitErr = false, testOpenErr = false } = request.body;
+		if (testInitErr) {
+			db({},(err,db) => {
+				if(err instanceof levelErrors.OpenError) {
+					dbgMsg.emit('error', err);
+					response.status = 500;
+					response.body = 'failed to open the required database, please check if the database is already in use';
+				} else if(err instanceof levelErrors.InitializationError) {
+					dbgMsg.emit('error', err);
+					response.status = 500;
+					response.body = 'failed to init a new database';
+				} else {
+					buckets[id] = db;
+					bucketIds.push(id);
+					response.status = 201;
+					response.body = 'OK';
+				}
+			});
+		} else if(testOpenErr) {
+			db(path.join(database, id, '.db'),{ createIfMissing: false },(err,db) => {
+				if(err instanceof levelErrors.OpenError) {
+					dbgMsg.emit('error', err);
+					response.status = 500;
+					response.body = 'failed to open the required database, please check if the database is already in use';
+				} else if(err instanceof levelErrors.InitializationError) {
+					dbgMsg.emit('error', err);
+					response.status = 500;
+					response.body = 'failed to init a new database';
+				} else {
+					buckets[id] = db;
+					bucketIds.push(id);
+					response.status = 201;
+					response.body = 'OK';
+				}
+			});
+		} else {
+			db(path.join(database, id, '.db'),{},(err,db) => {
+				if(err instanceof levelErrors.OpenError) {
+					dbgMsg.emit('error', err);
+					response.status = 500;
+					response.body = 'failed to open the required database, please check if the database is already in use';
+				} else if(err instanceof levelErrors.InitializationError) {
+					dbgMsg.emit('error', err);
+					response.status = 500;
+					response.body = 'failed to init a new database';
+				} else {
+					buckets[id] = db;
+					bucketIds.push(id);
+					response.status = 201;
+					response.body = 'OK';
+				}
+			});
+		}
 	});
 	router.delete('/buckets',async ({ request, response }) => {
 		try{
@@ -151,7 +195,8 @@ exports.launch = ({ host = 'localhost', port = 8575, sublevel = true, database, 
 		}
 	});
 	app.use(router.routes());
-	app.listen(port, host, () => {
+	const httpServer = test?http.createServer(app.callback()):http.createServer(app.callback()).listen(port, host, () => {
 		console.log(`App ${name} listening at port ${port}, host ${host}`);
 	});
+	return httpServer;
 };
