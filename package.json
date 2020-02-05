@@ -2,11 +2,35 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "eslint": "6.8.0",
-    "lerna": "3.20.2"
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-rem": "^4.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
+    "xo": "^0.25.3"
   },
-  "dependencies": {},
-  "scripts": {
-	  "test": "lerna run test"
+  "workspaces": [
+    "kwdb",
+    "kwdb-cli"
+  ],
+  "xo": {
+    "extends": [
+      "rem",
+      "plugin:prettier/recommended"
+    ]
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "xo --fix"
+    ],
+    "*.{md, json}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
