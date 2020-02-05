@@ -2,9 +2,6 @@
   "name": "kwdb",
   "version": "2.0.3",
   "description": "A RESTful wrap of LevelDB",
-  "scripts": {
-    "test": "ava --verbose"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ksryy/kwdb.git"
@@ -24,27 +21,17 @@
   },
   "homepage": "https://github.com/ksryy/kwdb#readme",
   "dependencies": {
-    "body-parser": "1.19.0",
+    "@koa/router": "^8.0.6",
     "express": "4.17.1",
     "fs-extra": "8.1.0",
     "koa": "2.11.0",
     "koa-body": "4.1.1",
-    "koa-router-find-my-way": "3.1.5",
     "level": "6.0.0",
     "level-errors": "2.0.1",
-    "level-lock": "1.0.1",
     "subleveldown": "4.1.4",
     "yargs": "15.1.0"
   },
   "bin": {
     "kwdb": "cli.js"
-  },
-  "gitHead": "17622efde733665a79275aceb095efe66c89bfad",
-  "devDependencies": {
-    "ava": "^2.4.0",
-    "eslint-plugin-import": "^2.18.2",
-    "level-mem": "^5.0.1",
-    "level-rocksdb": "^4.0.0",
-    "supertest": "^4.0.2"
   }
 }
