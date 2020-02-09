@@ -1,3 +1,4 @@
+> This package is not actively maintained because my focus is on other projects, but if there is bugs, I will try to fix it immediately.
 # kwdb
 
 > This is a monorepo for kwdb and its new cli tool(**WIP**).
