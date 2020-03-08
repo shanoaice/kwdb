@@ -29,7 +29,7 @@
     "level": "6.0.1",
     "level-errors": "2.0.1",
     "subleveldown": "4.1.4",
-    "yargs": "15.2.0"
+    "yargs": "15.3.0"
   },
   "bin": {
     "kwdb": "cli.js"
