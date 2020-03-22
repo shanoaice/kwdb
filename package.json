@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "eslint-config-prettier": "6.10.0",
+    "eslint-config-prettier": "6.10.1",
     "eslint-config-rem": "4.0.0",
     "eslint-plugin-prettier": "3.1.2",
     "husky": "4.2.3",
