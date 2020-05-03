@@ -8,5 +8,5 @@
 
 |Package Name|Install Size|Dependency Status|npm Version|
 |-|:-:|:-:|:-:|
-|[kwdb](https://github.com/KsRyY/kwdb/tree/master/packages/kwdb)|[![install size](https://packagephobia.now.sh/badge?p=kwdb)](https://packagephobia.now.sh/result?p=kwdb)|![dependency status](https://badgen.net/david/dep/KsRyY/kwdb/packages/kwdb)|[![npm Version](https://badgen.net/npm/v/kwdb)](https://www.npmjs.com/package/kwdb)
-|[kwdb-cli](https://github.com/KsRyY/kwdb/tree/master/packages/kwdb-cli)|***WIP***|***WIP***|***WIP***|
+|[kwdb](https://github.com/KsRyY/kwdb/tree/master//kwdb)|[![install size](https://packagephobia.now.sh/badge?p=kwdb)](https://packagephobia.now.sh/result?p=kwdb)|![dependency status](https://badgen.net/david/dep/KsRyY/kwdb/packages/kwdb)|[![npm Version](https://badgen.net/npm/v/kwdb)](https://www.npmjs.com/package/kwdb)
+|[kwdb-cli](https://github.com/KsRyY/kwdb/tree/master//kwdb-cli)|***WIP***|***WIP***|***WIP***|
