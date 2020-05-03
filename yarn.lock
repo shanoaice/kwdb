@@ -210,11 +210,22 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-abstract-leveldown@^6.1.1, abstract-leveldown@^6.2.1, abstract-leveldown@~6.2.1:
+abstract-leveldown@^6.2.1, abstract-leveldown@~6.2.1:
   version "6.2.2"
   resolved "https://registry.npm.taobao.org/abstract-leveldown/download/abstract-leveldown-6.2.2.tgz#677425beeb28204367c7639e264e93ea4b49971a"
   integrity sha1-Z3QlvusoIENnx2OeJk6T6ktJlxo=
   dependencies:
+    level-concat-iterator "~2.0.0"
+    level-supports "~1.0.0"
+    xtend "~4.0.0"
+
+abstract-leveldown@^6.2.3:
+  version "6.2.3"
+  resolved "https://registry.yarnpkg.com/abstract-leveldown/-/abstract-leveldown-6.2.3.tgz#036543d87e3710f2528e47040bc3261b77a9a8eb"
+  integrity sha512-BsLm5vFMRUrrLeCcRc+G0t2qOaTzpoJQLOubq2XM72eNpjF5UdU5o/5NvlNhx95XHcAvcl8OMXr4mlg/fRgUXQ==
+  dependencies:
+    buffer "^5.5.0"
+    immediate "^3.2.3"
     level-concat-iterator "~2.0.0"
     level-supports "~1.0.0"
     xtend "~4.0.0"
@@ -610,6 +621,14 @@ buffer@^4.3.0:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
     isarray "^1.0.0"
+
+buffer@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.5.0.tgz#9c3caa3d623c33dd1c7ef584b89b88bf9c9bc1ce"
+  integrity sha512-9FTEDjLjwoAkEwyMGDjYJQN2gfRgOKBKRfiglhvibGbpeeU/pQn1bJxQqm32OD/AIeEuHxU9roxXxg34Byp/Ww==
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
 
 builtin-status-codes@^3.0.0:
   version "3.0.0"
@@ -2412,7 +2431,7 @@ ignore@^5.0.5, ignore@^5.1.1:
   resolved "https://registry.npm.taobao.org/ignore/download/ignore-5.1.4.tgz#84b7b3dbe64552b6ef0eca99f6743dbec6d97adf"
   integrity sha1-hLez2+ZFUrbvDsqZ9nQ9vsbZet8=
 
-immediate@~3.2.3:
+immediate@^3.2.3, immediate@~3.2.3:
   version "3.2.3"
   resolved "https://registry.npm.taobao.org/immediate/download/immediate-3.2.3.tgz#d140fa8f614659bd6541233097ddaac25cdd991c"
   integrity sha1-0UD6j2FGWb1lQSMwl92qwlzdmRw=
@@ -4253,10 +4272,10 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-reachdown@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/reachdown/download/reachdown-1.0.0.tgz#c63715190c9a0dd108bea3610bf9690ad0983edb"
-  integrity sha1-xjcVGQyaDdEIvqNhC/lpCtCYPts=
+reachdown@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/reachdown/-/reachdown-1.1.0.tgz#c3b85b459dbd0fe2c79782233a0a38e66a9b5454"
+  integrity sha512-6LsdRe4cZyOjw4NnvbhUd/rGG7WQ9HMopPr+kyL018Uci4kijtxcGR5kVb5Ln13k4PEE+fEFQbjfOvNw7cnXmA==
 
 read-pkg-up@^2.0.0:
   version "2.0.0"
@@ -4984,17 +5003,17 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.npm.taobao.org/strip-json-comments/download/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
-subleveldown@4.1.4:
-  version "4.1.4"
-  resolved "https://registry.npm.taobao.org/subleveldown/download/subleveldown-4.1.4.tgz#3579563e4de4b811008046ad33280679bc39dba4"
-  integrity sha1-NXlWPk3kuBEAgEatMygGebw526Q=
+subleveldown@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/subleveldown/-/subleveldown-5.0.0.tgz#40449c28b418d83569efdb48acebe29d7b55b557"
+  integrity sha512-DotbiAIyOWSsidM06/m+EsBHXRyP7EgPlDDD5GVn6JcoDFcVZbp+VN9bOdErNtDWwgR+lJDuKwcJ8nKqSq9Ixg==
   dependencies:
-    abstract-leveldown "^6.1.1"
+    abstract-leveldown "^6.2.3"
     encoding-down "^6.2.0"
     inherits "^2.0.3"
     level-option-wrap "^1.1.0"
     levelup "^4.3.1"
-    reachdown "^1.0.0"
+    reachdown "^1.1.0"
 
 supports-color@^2.0.0:
   version "2.0.0"
