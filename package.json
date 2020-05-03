@@ -8,7 +8,7 @@
     "husky": "4.2.5",
     "lint-staged": "10.2.2",
     "prettier": "1.19.1",
-    "xo": "0.29.1"
+    "xo": "0.30.0"
   },
   "workspaces": [
     "kwdb",
