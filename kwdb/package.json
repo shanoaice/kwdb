@@ -28,7 +28,7 @@
     "koa-body": "4.2.0",
     "level": "6.0.1",
     "level-errors": "2.0.1",
-    "subleveldown": "5.0.1",
+    "subleveldown": "6.0.1",
     "yargs": "15.4.1"
   },
   "bin": {
